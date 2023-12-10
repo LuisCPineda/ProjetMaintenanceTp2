@@ -35,12 +35,16 @@ class Game:
         self.__running = False
 
     ########################################## C3 ##########################################
-
-        self.is_moving_up = False
-        self.is_moving_down = False
-        self.is_moving_left = False
-        self.is_moving_right = False
-
+        ##Player 1
+        self.is_moving_up_player_1 = False
+        self.is_moving_down_player_1 = False
+        self.is_moving_left_player_1 = False
+        self.is_moving_right_player_1 = False
+        ##Player 2
+        self.is_moving_up_player_2 = False
+        self.is_moving_down_player_2 = False
+        self.is_moving_left_player_2 = False
+        self.is_moving_right_player_2 = False
     ########################################## C3 ##########################################
 
 
@@ -116,6 +120,7 @@ class Game:
         self.__assembly_stations_group.add(self.__assembly_stations)
 
         self.__chef = Chef((screen.get_width() / 2, screen.get_height() / 2))
+        self.__chef2 = Chef((screen.get_width() / 2, screen.get_height() / 2))
 
     def run(self) -> None:
         """ Boucle de jeu. """
@@ -138,6 +143,7 @@ class Game:
         self.__order_board.update()
         self.__grills_group.update()
         self.__chef.update()
+        self.__chef2.update()
 
     def __draw(self) -> None:
         """ Dessins à effectuer à chaque trame. """
@@ -153,6 +159,7 @@ class Game:
         self.__assembly_stations_group.draw(self.__screen)
         self.__order_board.draw(self.__screen)
         self.__chef.draw(self.__screen)
+        self.__chef2.draw(self.__screen)
         # self.__show_fps()
 
         pygame.display.flip()
@@ -315,30 +322,56 @@ class Game:
         :param event: événement du clavier
         :return: aucun
         """
-
+        ##PLayer 1
         if event.type == pygame.KEYDOWN:
-            if event.key in [pygame.K_s, pygame.K_DOWN]:
-                self.is_moving_down = True
-            elif event.key in [pygame.K_a, pygame.K_LEFT]:
-                self.is_moving_left = True
-            elif event.key in [pygame.K_d, pygame.K_RIGHT]:
-                self.is_moving_right = True
-            elif event.key in [pygame.K_w, pygame.K_UP]:
-                self.is_moving_up = True
+            if event.key in [pygame.K_s]:
+                self.is_moving_down_player_1 = True
+            elif event.key in [pygame.K_a]:
+                self.is_moving_left_player_1 = True
+            elif event.key in [pygame.K_d]:
+                self.is_moving_right_player_1 = True
+            elif event.key in [pygame.K_w]:
+                self.is_moving_up_player_1 = True
             elif event.key == pygame.K_SPACE:
                 self.handle_space_key()
 
         if event.type == pygame.KEYUP:
-            if event.key in [pygame.K_s, pygame.K_DOWN]:
-                self.is_moving_down = False
-            elif event.key in [pygame.K_a, pygame.K_LEFT]:
-                self.is_moving_left = False
-            elif event.key in [pygame.K_d, pygame.K_RIGHT]:
-                self.is_moving_right = False
-            elif event.key in [pygame.K_w, pygame.K_UP]:
-                self.is_moving_up = False
+            if event.key in [pygame.K_s]:
+                self.is_moving_down_player_1 = False
+            elif event.key in [pygame.K_a]:
+                self.is_moving_left_player_1 = False
+            elif event.key in [pygame.K_d]:
+                self.is_moving_right_player_1 = False
+            elif event.key in [pygame.K_w]:
+                self.is_moving_up_player_1 = False
 
         self.__update_chef_movement()
+
+        ##PLayer 2
+        if event.type == pygame.KEYDOWN:
+            if event.key in [pygame.K_DOWN]:
+                self.is_moving_down_player_2 = True
+            elif event.key in [pygame.K_LEFT]:
+                self.is_moving_left_player_2 = True
+            elif event.key in [pygame.K_RIGHT]:
+                self.is_moving_right_player_2 = True
+            elif event.key in [pygame.K_UP]:
+                self.is_moving_up_player_2 = True
+            elif event.key == pygame.K_SPACE:
+                ##a corriger
+                self.handle_space_key()
+
+        if event.type == pygame.KEYUP:
+            if event.key in [pygame.K_DOWN]:
+                self.is_moving_down_player_2 = False
+            elif event.key in [pygame.K_LEFT]:
+                self.is_moving_left_player_2 = False
+            elif event.key in [pygame.K_RIGHT]:
+                self.is_moving_right_player_2 = False
+            elif event.key in [pygame.K_UP]:
+                self.is_moving_up_player_2 = False
+
+        self.__update_chef2_movement()
     
     def handle_space_key(self):
         interacted = False
@@ -397,18 +430,32 @@ class Game:
     ########################################## C3 ##########################################
 
     def __update_chef_movement(self):
-        if self.is_moving_left:
+        if self.is_moving_left_player_1:
             self.__chef.move_horizontal(-1)
-        elif self.is_moving_right:
+        elif self.is_moving_right_player_1:
             self.__chef.move_horizontal(1)
         else:
             self.__chef.move_horizontal(0)
 
-        if self.is_moving_up:
+        if self.is_moving_up_player_1:
             self.__chef.move_vertical(-1)
-        elif self.is_moving_down:
+        elif self.is_moving_down_player_1:
             self.__chef.move_vertical(1)
         else:
             self.__chef.move_vertical(0)
 
+    def __update_chef2_movement(self):
+        if self.is_moving_left_player_2:
+            self.__chef2.move_horizontal(-1)
+        elif self.is_moving_right_player_2:
+            self.__chef2.move_horizontal(1)
+        else:
+            self.__chef2.move_horizontal(0)
+
+        if self.is_moving_up_player_2:
+            self.__chef2.move_vertical(-1)
+        elif self.is_moving_down_player_2:
+            self.__chef2.move_vertical(1)
+        else:
+            self.__chef2.move_vertical(0)
     ########################################## C3 ##########################################
