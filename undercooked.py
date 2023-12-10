@@ -25,6 +25,17 @@ def __undercooked() -> None:
     pygame.display.set_caption('Undercooked')
     pygame.mouse.set_visible(False)
 
+    # Charger, redimensionner et afficher l'image
+    background_image = pygame.image.load(os.path.join('img', 'undercooked1.png'))
+    background_image = pygame.transform.scale(background_image, (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+    screen.blit(background_image, (0, 0))
+    pygame.display.flip()  # Mettre à jour l'écran
+
+    # Attendre 2s et enlever l'image de l'écran
+    pygame.time.wait(2000)
+    screen.fill((0, 0, 0))
+    pygame.display.flip()
+  #lancer le jeu
     game = Game(screen)
     game.run()
 
